@@ -1,3 +1,5 @@
+#[derive(Debug)]
+#[derive(PartialEq)]
 pub enum TokenLiteral {
     TIntLit,
     TPlus,

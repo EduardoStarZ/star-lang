@@ -5,8 +5,8 @@ use std::fs::File;
 use std::io::Read;
 use std::path::Path;
 
-pub fn get_file(path : String) -> String {
-    let path = Path::new(path.as_str());
+pub fn get_file(path : &str) -> String {
+    let path = Path::new(path);
 
     let mut file = match File::open(&path) {
         Err(_) => panic!(),

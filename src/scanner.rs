@@ -6,7 +6,7 @@ pub struct Scanner {
     pub file: String,
     pub char_idx: usize,
     pub curr_char: char,
-    file_size: usize
+    pub file_size: usize
 }
 
 pub trait Scanning {
@@ -14,12 +14,13 @@ pub trait Scanning {
     fn previous(&mut self) -> Option<char>;
     fn skip(&mut self) -> Option<char>;
     fn scan(&mut self, token_struct : &mut Token) -> bool;
+    fn scan_file(&mut self);
 }
 
 impl Scanning for Scanner {
     fn next(&mut self) -> Option<char> {
         if self.file_size > self.char_idx {
-            let c : char = self.file.chars().collect::<Vec<char>>()[self.char_idx+1];
+            let c : char = self.file.chars().collect::<Vec<char>>()[self.char_idx];
 
             self.char_idx += 1;
             self.curr_char = c;
@@ -73,13 +74,27 @@ impl Scanning for Scanner {
             _ => {
                 if c.is_numeric() {
                     token_struct.value = TokenLiteral::TIntLit;
-                    token_struct.ivalue = scan
+                    token_struct.ivalue = scanint(self);
                 }
             },
         }
 
         return true;
     }
+
+fn scan_file(&mut self) {
+    let mut token : Token = Token { value: TokenLiteral::TIntLit, ivalue: 0};
+
+    while self.scan(&mut token) {
+        print!("Token: {:?}", token.value);
+
+        if token.value == TokenLiteral::TIntLit {
+            print!("  ||  Integer value of: {}", token.ivalue);
+        }
+        
+        print!("\n");
+    }
+}
 }
 
 
