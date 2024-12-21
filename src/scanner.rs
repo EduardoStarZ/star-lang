@@ -14,7 +14,7 @@ pub trait Scanning {
     fn previous(&mut self) -> Option<char>;
     fn skip(&mut self) -> Option<char>;
     fn scan(&mut self, token_struct : &mut Token) -> bool;
-    fn scan_file(&mut self);
+    fn scan_file(&mut self) -> Vec<TokenLiteral>;
 }
 
 impl Scanning for Scanner {
@@ -71,6 +71,12 @@ impl Scanning for Scanner {
             '-' => token_struct.value = TokenLiteral::TMinus,
             '*' => token_struct.value = TokenLiteral::TStar,
             '/' => token_struct.value = TokenLiteral::TSlash,
+            '(' => token_struct.value = TokenLiteral::TParOpen,
+            ')' => token_struct.value = TokenLiteral::TParClose,
+            '[' => token_struct.value = TokenLiteral::TBraOpen,
+            ']' => token_struct.value = TokenLiteral::TBraClose,
+            '{' => token_struct.value = TokenLiteral::TKeyOpen,
+            '}' => token_struct.value = TokenLiteral::TKeyClose,
             _ => {
                 if c.is_numeric() {
                     token_struct.value = TokenLiteral::TIntLit;
@@ -82,18 +88,22 @@ impl Scanning for Scanner {
         return true;
     }
 
-fn scan_file(&mut self) {
+fn scan_file(&mut self) -> Vec<TokenLiteral> {
     let mut token : Token = Token { value: TokenLiteral::TIntLit, ivalue: 0};
+    let mut tokens : Vec<TokenLiteral> = Vec::new();
 
     while self.scan(&mut token) {
-        print!("Token: {:?}", token.value);
+        print!("Token: {:?}", &token.value);
 
         if token.value == TokenLiteral::TIntLit {
             print!("  ||  Integer value of: {}", token.ivalue);
         }
+
+        tokens.push(token.value);
         
         print!("\n");
     }
+    return tokens;
 }
 }
 
