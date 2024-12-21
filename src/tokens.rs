@@ -11,7 +11,8 @@ pub enum TokenLiteral {
     TBraOpen,
     TBraClose,
     TKeyOpen,
-    TKeyClose
+    TKeyClose,
+    TEndOfExpression
 }
 
 pub struct Token {

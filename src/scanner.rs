@@ -77,6 +77,7 @@ impl Scanning for Scanner {
             ']' => token_struct.value = TokenLiteral::TBraClose,
             '{' => token_struct.value = TokenLiteral::TKeyOpen,
             '}' => token_struct.value = TokenLiteral::TKeyClose,
+            ';' => token_struct.value = TokenLiteral::TEndOfExpression,
             _ => {
                 if c.is_numeric() {
                     token_struct.value = TokenLiteral::TIntLit;
