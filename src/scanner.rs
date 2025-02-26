@@ -81,7 +81,7 @@ impl Scanning for Scanner {
             _ => {
                 if c.is_numeric() {
                     token_struct.value = TokenLiteral::TIntLit;
-                    token_struct.ivalue = scanint(self);
+                    token_struct.ivalue = scan_int(self);
                 }
             },
         }
@@ -109,22 +109,22 @@ fn scan_file(&mut self) -> Vec<TokenLiteral> {
 }
 
 
-fn scanint(scn : &mut Scanner) -> i32 {
+fn scan_int(scanner : &mut Scanner) -> i32 {
     let mut val : i32 = 0;
 
-    let mut k : i32 = chrpos("0123456789", scn.curr_char);
+    let mut k : i32 = char_pos("0123456789", scanner.curr_char);
 
     while k >= 0 {
             val = val * 10 + k;
-            scn.next();
-            k = chrpos("0123456789", scn.curr_char);
+            scanner.next();
+            k = char_pos("0123456789", scanner.curr_char);
     }
 
-    scn.previous();
+    scanner.previous();
     return val;
 }
 
-fn chrpos(s: &str, c: char) -> i32 {
+fn char_pos(s: &str, c: char) -> i32 {
     match s.find(c) {
         Some(value) => value as i32,
         None => -1

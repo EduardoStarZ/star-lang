@@ -12,6 +12,7 @@ pub enum TokenLiteral {
     TBraClose,
     TKeyOpen,
     TKeyClose,
+    TMathExpression,
     TEndOfExpression
 }
 
